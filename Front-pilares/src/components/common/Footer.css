@@ -1,0 +1,32 @@
+.pilares-footer {
+  background-color: #6E1F34;
+  color: #FFFFFF;
+  padding: 1.5rem 2rem;
+  margin-top: auto;
+}
+
+.footer-container {
+  max-width: 1400px;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo_cdmx_f {
+  width: 42px;
+  height: auto;
+  /*filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.2));*/
+}
+
+.logo_f {
+  width: 157px;
+  height: auto;
+  /*filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.2));*/
+}
+
+.logo_gob {
+  width: 217px;
+  height: auto;
+  filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}

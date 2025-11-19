@@ -1,0 +1,270 @@
+.control-panel-right {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+
+.back-button {
+  background: #5a0b19;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background: #7a1225;
+}
+
+
+/* GENERAL */
+.reports-home {
+  padding: 20px;
+  background: #e8cfa9; /* fondo beige */
+  min-height: 100vh;
+  color: #5a0b19;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.title-main {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* GRID PRINCIPAL */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+/* PANEL IZQUIERDO */
+.left-panel {
+  background: #f7eadb;
+  padding: 25px;
+  border: 4px solid #5a0b19;
+  border-radius: 10px;
+}
+
+.panel-title {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+/* BUSCADOR */
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tag {
+  background: #5a0b19;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #5a0b19;
+  border-radius: 10px;
+}
+
+.btn-search {
+  background: #5a0b19;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+/* FILTROS */
+.filters-grid {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.input-group input {
+  border: 2px solid #5a0b19;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.full {
+  grid-column: span 2;
+}
+
+/* BOTÓN REPORTE */
+.btn-report {
+  margin-top: 20px;
+  display: block;
+  width: 200px;
+  background: #5a0b19;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* PANEL DERECHO */
+.right-panel {
+  background: white;
+  border: 4px solid #5a0b19;
+  border-radius: 10px;
+  padding: 25px;
+}
+
+/* TABLA */
+.table-container {
+  margin-top: 25px;
+  background: #5a0b19;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #f7eadb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+thead {
+  background: #5a0b19;
+  color: white;
+}
+
+thead th {
+  padding: 12px;
+  text-align: left;
+}
+
+tbody td {
+  padding: 12px;
+  border-bottom: 1px solid #d9b89e;
+}
+
+.icon {
+  font-size: 22px;
+  cursor: pointer;
+  color: #5a0b19;
+}
+
+
+
+
+/* --- MODAL GENERAL --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal {
+  width: 55%;
+  background: #f8f2ed;
+  border: 3px solid #5a0b19;
+  border-radius: 10px;
+  padding: 25px;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #5a0b19;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #5a0b19;
+}
+
+/* --- GRID DE EMPLEADOS --- */
+.employee-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.employee-item {
+  background: #5a0b19;
+  padding: 8px 14px;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.employee-item:hover {
+  background: #7a1225;
+}
+
+/* --- FOOTER --- */
+.modal-footer {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-save {
+  width: 40%;
+  padding: 10px;
+  background: #5a0b19;
+  color: white;
+  border: 2px solid #5a0b19;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: 0.2s ease;
+}
+
+.modal-save:hover {
+  background: #7a1225;
+}

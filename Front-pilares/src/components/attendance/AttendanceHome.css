@@ -1,0 +1,738 @@
+/* ========================================
+   CONTENEDOR PRINCIPAL
+   ======================================== */
+.attendance-home {
+  width: 100%;
+  min-height: auto;
+  height: auto;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: #6E1F34;
+}
+
+.attendance-container {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  width: 100%;
+  height: auto;
+  background-color: #6E1F34;
+  border-radius: 0;
+  justify-content: flex-start;
+}
+
+/* ========================================
+   LADO IZQUIERDO - FORMULARIO
+   ======================================== */
+.attendance-left {
+  min-height: auto;
+  background-color: #E0CCA7;
+  padding: 3rem 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.attendance-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.75rem;
+  font-weight: bold;
+  color: #6E1F34;
+  text-align: center;
+  margin-bottom: 3rem;
+  line-height: 1.2;
+}
+
+.attendance-form {
+  width: 100%;
+  max-width: 31.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.attendance-input {
+  font-size: 1.1rem;
+  color: #6E1F34;
+  background-color: #FFFFFF;
+  border: 3px solid #6E1F34;
+  border-radius: 0.75rem;
+  padding: 1rem 1.5rem;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.attendance-input::placeholder {
+  color: #A8948C;
+  opacity: 0.7;
+}
+
+.attendance-input:focus {
+  outline: none;
+  border-color: #7D323F;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(125, 50, 63, 0.1);
+}
+
+.attendance-button {
+  background-color: #7D323F;
+  color: #FFFFFF;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 1.25rem 2.5rem;
+  cursor: pointer;
+  font-size: 1.25rem;
+  transition: all 0.3s ease;
+  letter-spacing: 0.0625rem;
+}
+
+.attendance-button:hover {
+  background-color: #6E1F34;
+  transform: translateY(-0.125rem);
+  box-shadow: 0 0.375rem 0.75rem rgba(110, 31, 52, 0.4);
+}
+
+/* ========================================
+   ICONO DE CONFIGURACIÓN (ADMIN)
+   ======================================== */
+.attendance-settings-icon {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  width: 3.125rem;
+  height: 3.125rem;
+  background-color: #6E1F34;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0.25rem 0.5rem rgba(110, 31, 52, 0.3);
+}
+
+.attendance-settings-icon:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 0.375rem 0.75rem rgba(110, 31, 52, 0.4);
+}
+
+.attendance-settings-icon svg {
+  width: 1.625rem;
+  height: 1.625rem;
+  fill: #E0CCA7;
+}
+
+/* ========================================
+   MODAL DE LOGIN ADMINISTRADOR
+   ======================================== */
+.ventana-settings {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+}
+
+.ventana-settings-texto {
+  background-color: #f9eac8;
+  padding: 1.875rem;
+  border-radius: 0.938rem;
+  box-shadow: 0 0.313rem 0.938rem rgba(0, 0, 0, 0.3);
+  max-width: 25rem;
+  width: 90%;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: scale(0.95); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+}
+
+.login-icon {
+  width: 4.375rem;
+  height: 4.375rem;
+  color: #8b3c58;
+  margin-bottom: 0.625rem;
+}
+
+.login-title {
+  color: #8b3c58;
+  font-weight: bold;
+  margin-bottom: 1.563rem;
+  font-size: 1.2em;
+}
+
+.ventana-settings-texto form label {
+  display: block;
+  text-align: left;
+  color: #8b3c58;
+  font-weight: 500;
+  margin-top: 0.938rem;
+  margin-bottom: 0.313rem;
+}
+
+.ventana-settings-texto form input {
+  width: 100%;
+  padding: 0.625rem;
+  border: 1px solid #ccc;
+  border-radius: 0.313rem;
+  box-sizing: border-box;
+  font-size: 1em;
+  margin-bottom: 0.938rem;
+}
+
+.login-button {
+  width: 100%;
+  background-color: #8b3c58;
+  color: white;
+  border: none;
+  padding: 0.938rem 1.25rem;
+  border-radius: 0.625rem;
+  font-size: 1.5em;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: background-color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #6a2e45;
+}
+
+.login-button span {
+  position: absolute;
+  right: 0.938rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5em;
+  cursor: pointer;
+  font-weight: normal;
+  padding: 0.313rem;
+}
+
+/* ========================================
+   LADO DERECHO - ESCÁNER QR
+   ======================================== */
+.attendance-right {
+  background-color: #6E1F34;
+  min-height: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  position: relative;
+  min-width: 0;
+}
+
+.qr-title-fixed {
+  padding: 1rem 5%;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.563rem;
+  font-weight: 700;
+  color: #E0CCA7;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.qr-scanner {
+  width: 100%;
+  max-width: 23.75rem;
+  aspect-ratio: 1;
+  padding: 2rem;
+}
+
+/* ========================================
+   FRAME DEL ESCÁNER (DECORATIVO)
+   ======================================== */
+.scanner-frame {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(80, 180, 86, 0.15) 0%, rgba(15, 136, 59, 0.25) 100%);
+  border: 4px solid #E0CCA7;
+  border-radius: 1.25rem;
+  position: relative;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scanner-frame:hover {
+  transform: scale(1.02);
+}
+
+.scanner-corner {
+  position: absolute;
+  width: 3.125rem;
+  height: 3.125rem;
+  border: 5px solid #50B456;
+}
+
+.scanner-tl {
+  top: 0.938rem;
+  left: 0.938rem;
+  border-right: none;
+  border-bottom: none;
+  border-top-left-radius: 0.5rem;
+}
+
+.scanner-tr {
+  top: 0.938rem;
+  right: 0.938rem;
+  border-left: none;
+  border-bottom: none;
+  border-top-right-radius: 0.5rem;
+}
+
+.scanner-bl {
+  bottom: 0.938rem;
+  left: 0.938rem;
+  border-right: none;
+  border-top: none;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.scanner-br {
+  bottom: 0.938rem;
+  right: 0.938rem;
+  border-left: none;
+  border-top: none;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.scanner-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #50B456;
+  border-radius: 50%;
+  box-shadow: 0 0 1.25rem rgba(80, 180, 86, 0.6);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.5;
+  }
+}
+
+.scanner-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #E0CCA7;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  pointer-events: none;
+  margin-top: 3rem;
+}
+
+/* ========================================
+   CÁMARA ACTIVA DEL ESCÁNER QR
+   ======================================== */
+.scanner-camera-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  background: #000;
+}
+
+.scanner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Efecto de brillo en las esquinas durante el escaneo */
+.scanner-overlay .scanner-corner {
+  animation: corner-glow 2s ease-in-out infinite;
+}
+
+@keyframes corner-glow {
+  0%, 100% {
+    border-color: #50B456;
+    filter: drop-shadow(0 0 3px rgba(80, 180, 86, 0.6));
+  }
+  50% {
+    border-color: #60C466;
+    filter: drop-shadow(0 0 8px rgba(80, 180, 86, 1));
+  }
+}
+
+.scanner-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: rgba(110, 31, 52, 0.9);
+  color: #E0CCA7;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.3s ease;
+  line-height: 1;
+}
+
+.scanner-close-btn:hover {
+  background: rgba(125, 50, 63, 0.95);
+  transform: scale(1.1);
+}
+
+.scanner-error {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 0, 0, 0.8);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  z-index: 10;
+}
+
+/* ========================================
+   ANIMACIONES DE ESCANEO
+   ======================================== */
+
+/* Línea de escaneo animada */
+.scanner-line {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(80, 180, 86, 0.3) 20%,
+    rgba(80, 180, 86, 1) 50%,
+    rgba(80, 180, 86, 0.3) 80%,
+    transparent
+  );
+  box-shadow: 
+    0 0 10px rgba(80, 180, 86, 0.8),
+    0 0 20px rgba(80, 180, 86, 0.6),
+    0 0 30px rgba(80, 180, 86, 0.4);
+  animation: scan 2.5s linear infinite;
+  z-index: 7;
+}
+
+@keyframes scan {
+  0% {
+    top: 10%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 90%;
+    opacity: 0;
+  }
+}
+
+/* Texto de estado de escaneo */
+.scanner-status-text {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #E0CCA7;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  animation: pulse-text 1.5s ease-in-out infinite;
+  z-index: 7;
+  background: rgba(110, 31, 52, 0.7);
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  backdrop-filter: blur(4px);
+}
+
+@keyframes pulse-text {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Efecto de grid de escaneo */
+.scanner-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(80, 180, 86, 0.03) 2px,
+      rgba(80, 180, 86, 0.03) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(80, 180, 86, 0.03) 2px,
+      rgba(80, 180, 86, 0.03) 4px
+    );
+  pointer-events: none;
+  z-index: 6;
+  animation: grid-fade 1s ease-in-out infinite alternate;
+}
+
+@keyframes grid-fade {
+  0% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* ========================================
+   MEDIA QUERIES - RESPONSIVE
+   ======================================== */
+
+/* Tablets y pantallas medianas */
+@media (max-width: 1024px) {
+  .attendance-container {
+    grid-template-columns: 1fr;
+  }
+
+  .attendance-left,
+  .attendance-right {
+    width: 100%;
+    /*max-width: 35rem;*/
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .qr-title-fixed {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .qr-scanner {
+    max-width: 20rem;
+  }
+
+  .scanner-corner {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+/* Móviles y pantallas pequeñas */
+@media (max-width: 768px) {
+  .attendance-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .attendance-left {
+    padding: 2rem 1.5rem;
+  }
+
+  .attendance-right {
+    padding: 1.5rem 1rem;
+  }
+
+  .qr-title-fixed {
+    font-size: 1.875rem;
+  }
+
+  .qr-scanner {
+    max-width: 18rem;
+    padding: 1.5rem;
+  }
+
+  .attendance-settings-icon {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .attendance-settings-icon svg {
+    width: 1.375rem;
+    height: 1.375rem;
+  }
+
+  .scanner-text {
+    font-size: 1rem;
+  }
+
+  .scanner-close-btn {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.25rem;
+  }
+
+  .scanner-status-text {
+    font-size: 0.875rem;
+    padding: 0.4rem 1rem;
+    bottom: 1.5rem;
+  }
+}
+
+/* Móviles muy pequeños */
+@media (max-width: 600px) {
+  .attendance-title {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .qr-title-fixed {
+    font-size: 1.5rem;
+  }
+
+  .attendance-left,
+  .attendance-right {
+    padding: 1.5rem 1rem;
+  }
+
+  .attendance-form {
+    gap: 1.5rem;
+  }
+
+  .attendance-input {
+    font-size: 1rem;
+    padding: 0.875rem 1.25rem;
+  }
+
+  .attendance-button {
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+  }
+
+  .qr-scanner {
+    max-width: 16rem;
+    padding: 1.5rem;
+  }
+
+  .scanner-corner {
+    width: 2rem;
+    height: 2rem;
+    border-width: 4px;
+  }
+
+  .scanner-tl { top: 0.625rem; left: 0.625rem; }
+  .scanner-tr { top: 0.625rem; right: 0.625rem; }
+  .scanner-bl { bottom: 0.625rem; left: 0.625rem; }
+  .scanner-br { bottom: 0.625rem; right: 0.625rem; }
+
+  .ventana-settings-texto {
+    padding: 1.5rem;
+    max-width: 90%;
+  }
+
+  .login-icon {
+    width: 3.75rem;
+    height: 3.75rem;
+  }
+
+  .login-button {
+    font-size: 1.25em;
+    padding: 0.875rem 1rem;
+  }
+
+  .scanner-text {
+    font-size: 0.95rem;
+    margin-top: 2.5rem;
+  }
+
+  .scanner-status-text {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.8rem;
+    bottom: 1rem;
+  }
+}
+
+/* Extra pequeño (menos de 400px) */
+@media (max-width: 400px) {
+  .attendance-title {
+    font-size: 1.4rem;
+  }
+
+  .qr-title-fixed {
+    font-size: 1.25rem;
+  }
+
+  .attendance-input {
+    font-size: 0.95rem;
+  }
+
+  .attendance-button {
+    font-size: 1rem;
+    padding: 0.875rem 1.5rem;
+  }
+
+  .qr-scanner {
+    max-width: 14rem;
+  }
+
+  .scanner-text {
+    font-size: 0.85rem;
+  }
+
+  .scanner-status-text {
+    font-size: 0.7rem;
+  }
+}

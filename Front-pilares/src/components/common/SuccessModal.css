@@ -1,0 +1,45 @@
+.modal-overlay {
+  position: fixed;
+  z-index: 9999;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(110, 31, 52, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.success-modal {
+  background: #E0CCA7;
+  border-radius: 18px;
+  padding: 2.7rem 3.3rem;
+  min-width: 380px; max-width: 95vw;
+  min-height: 250px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.37);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-circle {
+  margin-bottom: 1.7rem;
+}
+
+.success-circle svg {
+  width: 100px;
+  height: 100px;
+  display: block;
+}
+
+.success-msg {
+  color: #FFF;
+  background: #6E1F34;
+  padding: 1rem 1.8rem;
+  border-radius: 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 0.7rem;
+  box-shadow: 0 2px 9px rgba(30,0,0,0.13);
+  letter-spacing: 1px;
+}

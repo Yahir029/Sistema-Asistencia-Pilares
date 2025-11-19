@@ -1,0 +1,37 @@
+.pilares-button {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.button-primary {
+  background-color: #7D323F;
+  color: #FFFFFF;
+}
+
+.button-primary:hover {
+  background-color: #6E1F34;
+}
+
+.button-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.button-medium {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+.button-large {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+}
+
+.button-full {
+  width: 100%;
+}

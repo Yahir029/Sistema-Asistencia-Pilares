@@ -1,0 +1,122 @@
+.modal-overlay {
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100vw; 
+  height: 100vh;
+  background-color: rgba(110, 31, 52, 0.85);
+  backdrop-filter: blur(0.375rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.admin-modal {
+  background-color: #E0CCA7;
+  border-radius: 1.25rem;
+  padding: 2.5rem 2rem 2rem 2rem;
+  min-width: 22.5rem; 
+  max-width: 95vw;
+  position: relative;
+  box-shadow: 0 0.625rem 2.5rem rgba(0,0,0,0.35);
+}
+
+.modal-close {
+  position: absolute; 
+  top: 1rem; 
+  right: 1rem;
+  background: transparent; 
+  border: none;
+  font-size: 2rem; 
+  color: #6E1F34;
+  cursor: pointer; 
+  width: 2.5rem; 
+  height: 2.5rem;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+}
+
+.modal-icon {
+  width: 4.375rem; 
+  height: 4.375rem;
+  margin: 0 auto 1rem;
+}
+
+.modal-icon svg {
+  width: 100%; 
+  height: 100%;
+  fill: #6E1F34;
+}
+
+.modal-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #6E1F34;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.modal-form {
+  display: flex; 
+  flex-direction: column; 
+  gap: 1.3rem;
+}
+
+.form-group { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 0.5rem; 
+}
+
+.form-group label {
+  font-weight: 700; 
+  color: #6E1F34;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.form-group input {
+  font-size: 1rem;
+  color: #6E1F34;
+  background-color: #FFF;
+  border: 3px solid #6E1F34;
+  border-radius: 0.75rem;
+  padding: 0.8rem 1.2rem;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #7D323F;
+  box-shadow: 0 0 0 3px rgba(125, 50, 63, 0.12);
+}
+
+.modal-submit-btn {
+  background-color: #7D323F;
+  color: #E0CCA7;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none; 
+  border-radius: 0.75rem;
+  padding: 1rem 2rem; 
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.modal-submit-btn:hover {
+  background: #6E1F34;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .admin-modal {
+    padding: 2rem 1.5rem;
+    min-width: 18rem;
+  }
+
+  .modal-title {
+    font-size: 1rem;
+  }
+}

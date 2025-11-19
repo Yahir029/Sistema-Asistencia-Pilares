@@ -1,0 +1,116 @@
+/* ErrorModal.css */
+.error-modal {
+  background: linear-gradient(135deg, #8b3c58 0%, #6e2d45 100%);
+  border: 4px solid #e0cca7;
+  border-radius: 1.25rem;
+  padding: 2.5rem 2rem;
+  max-width: 28rem;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.5);
+  animation: errorSlideIn 0.4s ease-out;
+}
+
+@keyframes errorSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.error-circle {
+  width: 6rem;
+  height: 6rem;
+  margin: 0 auto 1.5rem;
+  animation: errorShake 0.5s ease-in-out;
+}
+
+@keyframes errorShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+.error-circle svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0.25rem 0.5rem rgba(231, 76, 60, 0.4));
+}
+
+.error-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.error-msg {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #e0cca7;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.error-retry-btn {
+  background-color: #8b3c58;
+  color: #e0cca7;
+  border: 2px solid #e0cca7;
+  border-radius: 0.625rem;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+}
+
+.error-retry-btn:hover {
+  background-color: #6e2d45;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.error-retry-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .error-modal {
+    padding: 2rem 1.5rem;
+  }
+
+  .error-circle {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .error-title {
+    font-size: 1.6rem;
+  }
+
+  .error-msg {
+    font-size: 1rem;
+  }
+
+  .error-retry-btn {
+    padding: 0.65rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}
