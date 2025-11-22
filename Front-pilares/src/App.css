@@ -1,26 +1,31 @@
 .app {
   min-height: 100vh;
+  width: 100%;              /* Ocupa todo el ancho de la ventana */
   display: flex;
   flex-direction: column;
-  background-color: #6e1f34;
+  background-color: #6e1f34; /* Fondo general vino */
 }
 
+/* Barra de navegación superior (si la usas) */
 .main-nav {
   background-color: #FFFFFF;
   box-shadow: 0 0.125rem 0.25rem rgba(110, 31, 52, 0.1);
   position: sticky;
   top: 0;
   z-index: 100;
+  width: 100%;              /* Asegura franja completa */
 }
 
+/* Contenedor interno del nav centrado en pantallas grandes */
 .nav-container {
-  max-width: 87.5rem;
+  max-width: 87.5rem;       /* 1400px aprox */
   margin: 0 auto;
   display: flex;
   gap: 2rem;
   padding: 0 2rem;
 }
 
+/* Links del nav */
 .nav-link {
   font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
@@ -42,6 +47,7 @@
   border-bottom-color: #7D323F;
 }
 
+/* Contenido principal de cada página */
 .main-content {
   flex: 1;
   max-width: 100%;
@@ -50,10 +56,12 @@
   padding: 0;
 }
 
+/* Responsive */
 @media (max-width: 768px) {
   .nav-container {
     padding: 0 1rem;
     gap: 1rem;
+    max-width: 100%;        /* En móvil, sin límite de ancho */
   }
 
   .main-content {

@@ -562,6 +562,8 @@
     /*max-width: 35rem;*/
     margin: 0 auto;
     padding: 2rem 1.5rem;
+    flex: 1 1 0;          /* ambas columnas crecen y se encogen a la vez */
+  min-width: 360px;
   }
 
   .qr-title-fixed {

@@ -1,12 +1,23 @@
 /* Estilos globales del Sistema PILARES */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap');
 
+/* Reset básico */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Asegurar que todo puede ocupar el 100% de ancho y alto */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Variables globales */
 :root {
   --color-vino-bordo: #6E1F34;
   --color-guinda-oscuro: #7D323F;
@@ -16,6 +27,7 @@
   --font-secondary: 'Open Sans', sans-serif;
 }
 
+/* Estilo base del body */
 body {
   font-family: var(--font-secondary);
   font-size: 16px;
@@ -24,13 +36,21 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Root de React: full height y full width */
 #root {
   min-height: 100vh;
+  width: 100%;          /* Importante para evitar columnas vacías */
   display: flex;
   flex-direction: column;
 }
 
-h1, h2, h3, h4, h5, h6 {
+/* Títulos con fuente primaria */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-primary);
   font-weight: 600;
   color: var(--color-vino-bordo);

@@ -1,32 +1,72 @@
+/* Franja inferior – SIEMPRE full width */
 .pilares-footer {
   background-color: #6E1F34;
   color: #FFFFFF;
   padding: 1.5rem 2rem;
   margin-top: auto;
+  width: 100%;                 /* Importante para que llegue de borde a borde */
 }
 
+/* Contenedor interno centrado en desktop */
 .footer-container {
   max-width: 1400px;
-  margin-top: 30px;
+  margin: 30px auto 0;          /* centra horizontalmente, deja margen arriba */
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+/* Grupo de logos izquierda (CDMX + PILARES) */
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .logo_cdmx_f {
   width: 42px;
   height: auto;
-  /*filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.2));*/
 }
 
 .logo_f {
   width: 157px;
   height: auto;
-  /*filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.2));*/
 }
 
 .logo_gob {
   width: 217px;
   height: auto;
   filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+/* Responsive: todo ancho y logos apilados */
+@media (max-width: 768px) {
+  .pilares-footer {
+    padding: 1.25rem 1.25rem;
+  }
+
+  .footer-container {
+    max-width: 100%;
+    margin: 20px 0 0;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .footer-logo {
+    justify-content: center;
+  }
+
+  .logo_cdmx_f {
+    width: 36px;
+  }
+
+  .logo_f {
+    width: 140px;
+  }
+
+  .logo_gob {
+    width: 180px;
+  }
 }

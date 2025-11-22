@@ -21,10 +21,10 @@ const Footer = () => {
           />
         </div>
         <img
-            src={logo_gob}
-            alt="PILARES"
-            className="logo_gob"
-          />
+          src={logo_gob}
+          alt="Gobierno de la Ciudad de México"
+          className="logo_gob"
+        />
       </div>
     </footer>
   );

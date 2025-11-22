@@ -1,22 +1,24 @@
+/* Franja superior – SIEMPRE full width */
 .pilares-header {
   background-color: #6E1F34;
   color: #FFFFFF;
   padding: 1.5rem 2rem;
   box-shadow: 0 2px 8px rgba(110, 31, 52, 0.3);
-  display: flex;
-  align-items: center;
-  width: fit-content;    /* nuevo! solo el ancho del logo */
-  min-width: 0;
+  width: 100%;             /* ANTES: width: fit-content; */
   position: relative;
   z-index: 2;
 }
 
+/* Contenedor interno centrado y limitado en desktop */
 .header-container {
+  max-width: 1400px;       /* ajusta si quieres */
+  margin: 0 auto;          /* centra en pantallas grandes */
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
 
+/* Grupo de logos */
 .pilares-logo {
   display: flex;
   align-items: center;
@@ -26,17 +28,29 @@
 .logo_cdmx {
   width: 112px;
   height: auto;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  /*filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.2));*/
 }
 
 .logo {
   width: 397px;
   height: auto;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  /*filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.2));*/
+}
+
+/* Responsive: reducir logos en móvil para que no se corten */
+@media (max-width: 768px) {
+  .pilares-header {
+    padding: 1rem 1.25rem;
+  }
+
+  .header-container {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .logo_cdmx {
+    width: 80px;
+  }
+
+  .logo {
+    width: 260px;
+  }
 }
