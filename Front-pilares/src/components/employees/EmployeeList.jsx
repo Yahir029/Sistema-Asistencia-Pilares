@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './EmployeeList.css';
 import ConfirmModal from './../common/ConfirmModal';
@@ -30,8 +30,8 @@ const EmployeeList = () => {
 
   const token = localStorage.getItem('authToken');
 
-  // ============ CERRAR SESIÓN ============
-  const handleLogout = () => {
+  // ============ CERRAR SESIÓN (con useCallback) ============
+  const handleLogout = useCallback(() => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('userData');
     localStorage.removeItem('userRole');
@@ -45,9 +45,9 @@ const EmployeeList = () => {
     });
 
     navigate('/');
-  };
+  }, [navigate]);
 
-  // ============ CARGAR EMPLEADOS ============
+  // ============ CARGAR EMPLEADOS DESDE EL BACKEND ============
   useEffect(() => {
     const fetchEmployees = async () => {
       setLoading(true);
@@ -74,7 +74,6 @@ const EmployeeList = () => {
           };
 
           const transformedData = data.map(emp => {
-            // Horarios
             const scheduleObj = {
               Lunes: { from: '', to: '' },
               Martes: { from: '', to: '' },
@@ -97,16 +96,12 @@ const EmployeeList = () => {
               });
             }
 
-            // Soportar nombres de propiedades en minúscula o PascalCase
-            const empEmail = emp.email || emp.Email || '';
-            const empPhone = emp.telefono || emp.Telefono || '';
-
             return {
               id: emp.idEmpleadoExterno || emp.IdEmpleadoExterno,
               dbId: emp.id || emp.Id,
               name: emp.nombre || emp.Nombre,
-              email: empEmail,
-              phone: empPhone,
+              email: emp.email || emp.Email || '',
+              phone: emp.telefono || emp.Telefono || '',
               role: emp.nombreRol || emp.NombreRol || '',
               area: emp.nombreArea || emp.NombreArea || '',
               active: emp.estaActivo ?? emp.EstaActivo,
@@ -134,7 +129,7 @@ const EmployeeList = () => {
     } else {
       navigate('/');
     }
-  }, [token, navigate]);
+  }, [token, navigate, handleLogout]);
 
   // ============ STICKY COLUMN FIX ============
   useEffect(() => {
@@ -282,7 +277,6 @@ const EmployeeList = () => {
       }
     });
 
-    // IMPORTANTE: asegurar IdEmpleadoExterno en edición
     const idEmpleadoExterno = modalData.isNew
       ? formData.get('id')
       : modalData.employee.id;
@@ -342,7 +336,6 @@ const EmployeeList = () => {
         setIsModalOpen(false);
         setTimeout(() => window.location.reload(), 1500);
       } else {
-        // Manejo seguro de errores (puede no haber JSON)
         let errorBody = null;
         try {
           const text = await response.text();
@@ -671,7 +664,7 @@ const EmployeeList = () => {
                   name="id"
                   defaultValue={modalData.employee?.id}
                   required
-                  disabled={!modalData.isNew} // solo editable al crear
+                  disabled={!modalData.isNew}
                 />
               </div>
 
