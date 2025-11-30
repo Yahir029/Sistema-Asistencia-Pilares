@@ -28,7 +28,9 @@ namespace AsistenciaAPI.Application.Services
                 Id = Guid.NewGuid(),
                 IdEmpleadoExterno = dto.IdEmpleadoExterno,
                 Nombre = dto.Nombre,
-                EstaActivo = true
+                EstaActivo = true,
+                Email = dto.Email,
+                Telefono = dto.Telefono
             };
 
             // admin flag and password handling
@@ -121,7 +123,9 @@ namespace AsistenciaAPI.Application.Services
                 e.Area?.Nombre ?? string.Empty,
                 e.Rol?.Nombre ?? string.Empty,
                 e.EstaActivo,
-                e.Horarios.Select(h => new HorarioDto(h.Dia, h.HoraInicio, h.HoraFin)).ToList()
+                e.Horarios.Select(h => new HorarioDto(h.Dia, h.HoraInicio, h.HoraFin)).ToList(),
+                e.Email,
+                e.Telefono
             )).ToList();
         }
 
@@ -135,6 +139,8 @@ namespace AsistenciaAPI.Application.Services
 
             empleado.Nombre = dto.Nombre;
             empleado.IdEmpleadoExterno = dto.IdEmpleadoExterno;
+            empleado.Email = dto.Email;
+            empleado.Telefono = dto.Telefono;
 
             // Resolver o crear Area por nombre y asignar AreaId
             if (!string.IsNullOrWhiteSpace(dto.NombreArea))

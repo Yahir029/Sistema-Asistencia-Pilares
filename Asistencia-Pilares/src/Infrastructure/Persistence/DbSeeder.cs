@@ -61,7 +61,9 @@ namespace AsistenciaAPI.Infrastructure.Persistence
                 EsAdmin = true,
                 AreaId = areaAdmin.Id,
                 RolId = rolAdmin.Id,
-                PasswordHash = _hasher.Hash(defaultAdminPassword)
+                PasswordHash = _hasher.Hash(defaultAdminPassword),
+                Email = "admin@example.com",
+                Telefono = "123-456-7890" 
             };
 
             var empleados = new[]

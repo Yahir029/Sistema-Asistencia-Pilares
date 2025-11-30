@@ -52,6 +52,18 @@ namespace Core.Entities
     public string? PasswordHash { get; set; }
 
         /// <summary>
+        /// Correo electrónico del empleado (opcional)
+        /// </summary>
+        [MaxLength(200)]
+        public string? Email { get; set; }
+
+        /// <summary>
+        /// Teléfono de contacto del empleado (opcional)
+        /// </summary>
+        [MaxLength(50)]
+        public string? Telefono { get; set; }
+        
+        /// <summary>
         /// Llave foránea al área
         /// </summary>
         [Required]
