@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AsistenciaAPI.Application.Common.Interfaces;
 using AsistenciaAPI.Application.DTOs;
@@ -310,6 +311,9 @@ namespace AsistenciaAPI.Infrastructure.Services
                 FechaInicio = dto.FechaInicio,
                 FechaFin = dto.FechaFin,
                 EmpleadoId = dto.EmpleadoId,
+                EmpleadoIdsJson = dto.EmpleadoIds != null && dto.EmpleadoIds.Count > 0 
+                    ? JsonSerializer.Serialize(dto.EmpleadoIds) 
+                    : null,
                 UsuarioGenerador = usuarioGenerador
             };
 
@@ -324,6 +328,9 @@ namespace AsistenciaAPI.Infrastructure.Services
                 FechaInicio = reporte.FechaInicio,
                 FechaFin = reporte.FechaFin,
                 EmpleadoId = reporte.EmpleadoId,
+                EmpleadoIds = !string.IsNullOrEmpty(reporte.EmpleadoIdsJson) 
+                    ? JsonSerializer.Deserialize<List<Guid>>(reporte.EmpleadoIdsJson) 
+                    : null,
                 UsuarioGenerador = reporte.UsuarioGenerador
             };
         }
@@ -343,6 +350,9 @@ namespace AsistenciaAPI.Infrastructure.Services
                 FechaInicio = r.FechaInicio,
                 FechaFin = r.FechaFin,
                 EmpleadoId = r.EmpleadoId,
+                EmpleadoIds = !string.IsNullOrEmpty(r.EmpleadoIdsJson) 
+                    ? JsonSerializer.Deserialize<List<Guid>>(r.EmpleadoIdsJson) 
+                    : null,
                 UsuarioGenerador = r.UsuarioGenerador
             }).ToList();
         }
