@@ -29,8 +29,8 @@ namespace AsistenciaAPI.Application.Services
                 IdEmpleadoExterno = dto.IdEmpleadoExterno,
                 Nombre = dto.Nombre,
                 EstaActivo = true,
-                Email = dto.Email,
-                Telefono = dto.Telefono
+                Email = string.IsNullOrWhiteSpace(dto.Email) ? "N/A" : dto.Email,
+                Telefono = string.IsNullOrWhiteSpace(dto.Telefono) ? "N/A" : dto.Telefono
             };
 
             // admin flag and password handling
@@ -43,7 +43,7 @@ namespace AsistenciaAPI.Application.Services
                 empleado.PasswordHash = _hasher.Hash(dto.Password);
             }
 
-            // Resolver o crear Area por nombre (si se proporciona) - AHORA ES OPCIONAL
+            // Resolver o crear Area por nombre (si se proporciona)
             if (!string.IsNullOrWhiteSpace(dto.NombreArea))
             {
                 var nombreArea = dto.NombreArea.Trim();
@@ -60,10 +60,20 @@ namespace AsistenciaAPI.Application.Services
             }
             else
             {
-                empleado.AreaId = null; // Explícitamente null si no se proporciona
+                // Crear área "N/A" si no existe y asignarla
+                var areaNa = await _context.Areas
+                    .FirstOrDefaultAsync(a => a.Nombre == "N/A");
+                
+                if (areaNa == null)
+                {
+                    areaNa = new Area { Id = Guid.NewGuid(), Nombre = "N/A" };
+                    _context.Areas.Add(areaNa);
+                }
+                
+                empleado.AreaId = areaNa.Id;
             }
 
-            // Resolver o crear Rol por nombre (si se proporciona) - AHORA ES OPCIONAL
+            // Resolver o crear Rol por nombre (si se proporciona)
             if (!string.IsNullOrWhiteSpace(dto.NombreRol))
             {
                 var nombreRol = dto.NombreRol.Trim();
@@ -80,7 +90,17 @@ namespace AsistenciaAPI.Application.Services
             }
             else
             {
-                empleado.RolId = null; // Explícitamente null si no se proporciona
+                // Crear rol "N/A" si no existe y asignarlo
+                var rolNa = await _context.Roles
+                    .FirstOrDefaultAsync(r => r.Nombre == "N/A");
+                
+                if (rolNa == null)
+                {
+                    rolNa = new Rol { Id = Guid.NewGuid(), Nombre = "N/A" };
+                    _context.Roles.Add(rolNa);
+                }
+                
+                empleado.RolId = rolNa.Id;
             }
 
             var horarios = dto.Horarios?.Select(h => new HorarioLaboral
@@ -113,7 +133,17 @@ namespace AsistenciaAPI.Application.Services
 
             var horarios = e.Horarios.Select(h => new HorarioDto(h.Dia, h.HoraInicio, h.HoraFin)).ToList();
 
-            return new EmpleadoDto(e.Id, e.IdEmpleadoExterno, e.Nombre, e.Area?.Nombre ?? string.Empty, e.Rol?.Nombre ?? string.Empty, e.EstaActivo, horarios);
+            return new EmpleadoDto(
+                e.Id, 
+                e.IdEmpleadoExterno, 
+                e.Nombre, 
+                e.Area?.Nombre ?? "N/A", 
+                e.Rol?.Nombre ?? "N/A", 
+                e.EstaActivo, 
+                horarios,
+                e.Email ?? "N/A",
+                e.Telefono ?? "N/A"
+            );
         }
 
         public async Task<List<EmpleadoDto>> ObtenerTodosAsync()
@@ -128,12 +158,12 @@ namespace AsistenciaAPI.Application.Services
                 e.Id,
                 e.IdEmpleadoExterno,
                 e.Nombre,
-                e.Area?.Nombre ?? string.Empty,
-                e.Rol?.Nombre ?? string.Empty,
+                e.Area?.Nombre ?? "N/A",
+                e.Rol?.Nombre ?? "N/A",
                 e.EstaActivo,
                 e.Horarios.Select(h => new HorarioDto(h.Dia, h.HoraInicio, h.HoraFin)).ToList(),
-                e.Email,
-                e.Telefono
+                e.Email ?? "N/A",
+                e.Telefono ?? "N/A"
             )).ToList();
         }
 
@@ -147,10 +177,10 @@ namespace AsistenciaAPI.Application.Services
 
             empleado.Nombre = dto.Nombre;
             empleado.IdEmpleadoExterno = dto.IdEmpleadoExterno;
-            empleado.Email = dto.Email;
-            empleado.Telefono = dto.Telefono;
+            empleado.Email = string.IsNullOrWhiteSpace(dto.Email) ? "N/A" : dto.Email;
+            empleado.Telefono = string.IsNullOrWhiteSpace(dto.Telefono) ? "N/A" : dto.Telefono;
 
-            // Resolver o crear Area por nombre y asignar AreaId - AHORA ES OPCIONAL
+            // Resolver o crear Area por nombre y asignar AreaId
             if (!string.IsNullOrWhiteSpace(dto.NombreArea))
             {
                 var nombreArea = dto.NombreArea.Trim();
@@ -167,10 +197,20 @@ namespace AsistenciaAPI.Application.Services
             }
             else
             {
-                empleado.AreaId = null; // Limpiar área si no se proporciona
+                // Asignar área "N/A"
+                var areaNa = await _context.Areas
+                    .FirstOrDefaultAsync(a => a.Nombre == "N/A");
+                
+                if (areaNa == null)
+                {
+                    areaNa = new Area { Id = Guid.NewGuid(), Nombre = "N/A" };
+                    _context.Areas.Add(areaNa);
+                }
+                
+                empleado.AreaId = areaNa.Id;
             }
 
-            // Resolver o crear Rol por nombre y asignar RolId - AHORA ES OPCIONAL
+            // Resolver o crear Rol por nombre y asignar RolId
             if (!string.IsNullOrWhiteSpace(dto.NombreRol))
             {
                 var nombreRol = dto.NombreRol.Trim();
@@ -187,7 +227,17 @@ namespace AsistenciaAPI.Application.Services
             }
             else
             {
-                empleado.RolId = null; // Limpiar rol si no se proporciona
+                // Asignar rol "N/A"
+                var rolNa = await _context.Roles
+                    .FirstOrDefaultAsync(r => r.Nombre == "N/A");
+                
+                if (rolNa == null)
+                {
+                    rolNa = new Rol { Id = Guid.NewGuid(), Nombre = "N/A" };
+                    _context.Roles.Add(rolNa);
+                }
+                
+                empleado.RolId = rolNa.Id;
             }
 
             // Reemplazar horarios: eliminar existentes y añadir nuevos
