@@ -244,19 +244,42 @@ const EmployeeList = () => {
       return;
     }
     
+    // DEBUG: Ver qué valor tiene employee.admin
+    console.log('DEBUG - Employee data:', {
+      id: employee.id,
+      name: employee.name,
+      role: employee.role,
+      admin: employee.admin,
+      adminType: typeof employee.admin
+    });
+    
     setModalData({
       isNew: false,
       employee: { ...employee }
     });
     
-    // Detectar si el empleado es administrador
-    const isAdmin = employee.admin === true;
+    // Detectar si el empleado es administrador - verificar múltiples casos
+    const isAdmin = 
+      employee.admin === true ||           // booleano true
+      employee.admin === 'true' ||         // string 'true'
+      employee.admin === 1 ||              // número 1
+      employee.admin === 'True' ||         // string con mayúscula
+      employee.admin === 'TRUE' ||         // string todo mayúsculas
+      (typeof employee.role === 'string' && 
+       employee.role.toLowerCase() === 'administrador');  // fallback por rol
+    
+    console.log('DEBUG - isAdmin calculated:', isAdmin);
     
     // Establecer el estado del switch basado en si el empleado es admin
     setIsAdminInModal(isAdmin);
     
     // Si es admin, establecer roleValue como 'Administrador', sino usar el rol actual
     setRoleValue(isAdmin ? 'Administrador' : (employee.role || ''));
+    
+    console.log('DEBUG - States set:', {
+      isAdminInModal: isAdmin,
+      roleValue: isAdmin ? 'Administrador' : (employee.role || '')
+    });
     
     setShowPassword(false);
     setIsModalOpen(true);
