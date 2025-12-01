@@ -63,6 +63,56 @@ const esEmpleadoActivo = (emp) => {
   return true;
 };
 
+// Función para generar el nombre del reporte
+const generarNombreReporte = (selectedEmployees, isTodosSelected, fechaInicio, fechaFin) => {
+  // Arrays de nombres de meses
+  const mesesCompletos = [
+    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+  ];
+  
+  const mesesAbreviados = [
+    "Ene", "Feb", "Mar", "Abr", "May", "Jun",
+    "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
+  ];
+
+  // Obtener mes y año de inicio y fin
+  const [yearInicio, mesInicio] = fechaInicio.split("-").map(Number);
+  const [yearFin, mesFin] = fechaFin.split("-").map(Number);
+
+  // Determinar el rango de meses
+  let rangoMeses = "";
+  
+  if (mesInicio === mesFin && yearInicio === yearFin) {
+    // Un solo mes - usar nombre completo
+    rangoMeses = mesesCompletos[mesInicio - 1];
+  } else {
+    // Múltiples meses - usar abreviados
+    rangoMeses = `${mesesAbreviados[mesInicio - 1]}-${mesesAbreviados[mesFin - 1]}`;
+  }
+
+  // Determinar la parte de empleados del nombre
+  let parteEmpleados = "";
+  
+  if (isTodosSelected || selectedEmployees.length === 0) {
+    parteEmpleados = "Todos";
+  } else if (selectedEmployees.length === 1) {
+    // Un solo empleado - usar primer nombre
+    const nombreCompleto = selectedEmployees[0].nombre || selectedEmployees[0].name || "Empleado";
+    parteEmpleados = nombreCompleto.split(" ")[0];
+  } else {
+    // Múltiples empleados - concatenar primeros nombres con guion bajo
+    const nombres = selectedEmployees.map(emp => {
+      const nombreCompleto = emp.nombre || emp.name || "Empleado";
+      return nombreCompleto.split(" ")[0];
+    });
+    parteEmpleados = nombres.join("_");
+  }
+
+  // Construir el nombre completo
+  return `Reporte${parteEmpleados}_${rangoMeses}`;
+};
+
 const ReportsHome = () => {
   const navigate = useNavigate();
   const [showEmployeeModal, setShowEmployeeModal] = useState(false);
@@ -224,34 +274,13 @@ const ReportsHome = () => {
         horasTrabajadas: tiempoReal,
       }));
 
-      // 3) Armar nombre y guardar reporte como antes
-      const [year, month] = filters.fechaInicio.split("-");
-      const meses = [
-        "Enero",
-        "Febrero",
-        "Marzo",
-        "Abril",
-        "Mayo",
-        "Junio",
-        "Julio",
-        "Agosto",
-        "Septiembre",
-        "Octubre",
-        "Noviembre",
-        "Diciembre",
-      ];
-      const mesCapitalizado = meses[parseInt(month) - 1];
-
-      let nombreReporte;
-      if (isTodosSelected || selectedEmployees.length === 0) {
-        nombreReporte = `ReporteTodos${mesCapitalizado}`;
-      } else if (selectedEmployees.length === 1) {
-        const nombreEmpleado = selectedEmployees[0].nombre || selectedEmployees[0].name || "Empleado";
-        const primerNombre = nombreEmpleado.split(" ")[0];
-        nombreReporte = `Reporte${primerNombre}${mesCapitalizado}`;
-      } else {
-        nombreReporte = `ReporteMultiple${mesCapitalizado}`;
-      }
+      // 3) Generar nombre del reporte con la nueva lógica
+      const nombreReporte = generarNombreReporte(
+        selectedEmployees,
+        isTodosSelected,
+        filters.fechaInicio,
+        filters.fechaFin
+      );
 
       const guardarDto = {
         nombre: nombreReporte,
