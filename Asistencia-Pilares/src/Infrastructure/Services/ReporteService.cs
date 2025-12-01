@@ -29,7 +29,12 @@ namespace AsistenciaAPI.Infrastructure.Services
                 .Include(r => r.Empleado)
                 .Where(r => r.Fecha >= request.FechaInicio.Date && r.Fecha <= request.FechaFin.Date);
 
-            if (request.EmpleadoId.HasValue)
+            // Manejar múltiples empleados (EmpleadoIds) o un solo empleado (EmpleadoId)
+            if (request.EmpleadoIds != null && request.EmpleadoIds.Count > 0)
+            {
+                query = query.Where(r => request.EmpleadoIds.Contains(r.EmpleadoId));
+            }
+            else if (request.EmpleadoId.HasValue)
             {
                 query = query.Where(r => r.EmpleadoId == request.EmpleadoId.Value);
             }
