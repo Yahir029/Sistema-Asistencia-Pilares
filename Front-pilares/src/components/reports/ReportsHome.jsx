@@ -69,12 +69,12 @@ const ReportsHome = () => {
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [previewData, setPreviewData] = useState(null);
   const [employees, setEmployees] = useState([]);
-  const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
+  const [selectedEmployees, setSelectedEmployees] = useState([]); // Array de empleados seleccionados
+  const [isTodosSelected, setIsTodosSelected] = useState(false); // Flag para "Todos"
   const [refreshKey, setRefreshKey] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const [filters, setFilters] = useState({
-    search: "",
     fechaInicio: "",
     fechaFin: "",
     horaEntrada: "",
@@ -189,8 +189,20 @@ const ReportsHome = () => {
         return;
       }
 
+      // Determinar qué empleados incluir en el reporte
+      let empleadoId = null;
+      if (isTodosSelected) {
+        empleadoId = null; // Todos los empleados
+      } else if (selectedEmployees.length === 1) {
+        empleadoId = selectedEmployees[0].id; // Un solo empleado
+      } else if (selectedEmployees.length > 1) {
+        // Múltiples empleados - por ahora usar null (todos)
+        // Podrías implementar lógica para generar reportes individuales
+        empleadoId = null;
+      }
+
       const requestData = {
-        empleadoId: selectedEmployeeId,
+        empleadoId: empleadoId,
         fechaInicio: filters.fechaInicio,
         fechaFin: filters.fechaFin,
       };
@@ -231,21 +243,21 @@ const ReportsHome = () => {
       const mesCapitalizado = meses[parseInt(month) - 1];
 
       let nombreReporte;
-      if (selectedEmployeeId === null) {
+      if (isTodosSelected || selectedEmployees.length === 0) {
         nombreReporte = `ReporteTodos${mesCapitalizado}`;
-      } else {
-        const empleadoSeleccionado = employees.find((e) => e.id === selectedEmployeeId);
-        const nombreEmpleado =
-          empleadoSeleccionado?.nombre || empleadoSeleccionado?.name || "Empleado";
+      } else if (selectedEmployees.length === 1) {
+        const nombreEmpleado = selectedEmployees[0].nombre || selectedEmployees[0].name || "Empleado";
         const primerNombre = nombreEmpleado.split(" ")[0];
         nombreReporte = `Reporte${primerNombre}${mesCapitalizado}`;
+      } else {
+        nombreReporte = `ReporteMultiple${mesCapitalizado}`;
       }
 
       const guardarDto = {
         nombre: nombreReporte,
         fechaInicio: filters.fechaInicio,
         fechaFin: filters.fechaFin,
-        empleadoId: selectedEmployeeId,
+        empleadoId: empleadoId,
       };
 
       const saveResponse = await axios.post(`${API_URL}/reportes/guardar`, guardarDto, {
@@ -431,24 +443,47 @@ const ReportsHome = () => {
     }
   };
 
+  // Seleccionar un empleado individual
   const handleSelectEmployee = (emp) => {
-    setSelectedEmployeeId(emp.id);
-    setFilters((prev) => ({ ...prev, search: emp.nombre || emp.name }));
+    // Si ya está seleccionado, no hacer nada
+    if (selectedEmployees.some(e => e.id === emp.id)) {
+      return;
+    }
+    
+    // Agregar al array de seleccionados
+    setSelectedEmployees(prev => [...prev, emp]);
+    setIsTodosSelected(false);
     setShowEmployeeModal(false);
   };
 
+  // Seleccionar "Todos los empleados"
   const handleSelectTodos = () => {
-    setSelectedEmployeeId(null);
-    setFilters((prev) => ({ ...prev, search: "Todos los empleados" }));
+    setIsTodosSelected(true);
+    setSelectedEmployees([]); // Limpiar selección individual
     setShowEmployeeModal(false);
   };
 
-  const clearSelectedEmployee = () => {
-    setSelectedEmployeeId(null);
-    setFilters((prev) => ({ ...prev, search: "" }));
+  // Eliminar un empleado específico de la selección
+  const handleRemoveEmployee = (empId) => {
+    setSelectedEmployees(prev => prev.filter(e => e.id !== empId));
   };
 
-  const mostrarChip = !!filters.search;
+  // Limpiar toda la selección
+  const clearAllSelection = () => {
+    setSelectedEmployees([]);
+    setIsTodosSelected(false);
+  };
+
+  // Determinar qué mostrar en el resumen
+  const getSearchSummary = () => {
+    if (isTodosSelected) {
+      return "Todos los empleados";
+    }
+    if (selectedEmployees.length > 0) {
+      return selectedEmployees.map(e => e.nombre || e.name).join(", ");
+    }
+    return "Ninguno";
+  };
 
   return (
     <div className="reports-home">
@@ -465,7 +500,7 @@ const ReportsHome = () => {
         <div className="modal-overlay">
           <div className="modal">
             <div className="modal-header">
-              <h3>Empleados</h3>
+              <h3>Seleccionar Empleados</h3>
               <button className="modal-close" onClick={() => setShowEmployeeModal(false)}>
                 ✖
               </button>
@@ -482,7 +517,7 @@ const ReportsHome = () => {
                 {employees.map((emp) => (
                   <button
                     key={emp.id}
-                    className="employee-item"
+                    className={`employee-item ${selectedEmployees.some(e => e.id === emp.id) ? 'selected' : ''}`}
                     onClick={() => handleSelectEmployee(emp)}
                   >
                     {emp.nombre || emp.name}
@@ -583,24 +618,40 @@ const ReportsHome = () => {
 
           <div className="search-row">
             <div className="search-input-wrapper">
-              {mostrarChip && (
-                <div className="selected-employee-chip inside">
-                  <span>{filters.search}</span>
-                  <button
-                    type="button"
-                    className="chip-close"
-                    onClick={clearSelectedEmployee}
-                  >
-                    ✕
-                  </button>
-                </div>
-              )}
+              {/* Mostrar chips */}
+              <div className="chips-container">
+                {isTodosSelected ? (
+                  <div className="employee-chip">
+                    <span>Todos los empleados</span>
+                    <button
+                      type="button"
+                      className="chip-close"
+                      onClick={clearAllSelection}
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ) : (
+                  selectedEmployees.map((emp) => (
+                    <div key={emp.id} className="employee-chip">
+                      <span>{emp.nombre || emp.name}</span>
+                      <button
+                        type="button"
+                        className="chip-close"
+                        onClick={() => handleRemoveEmployee(emp.id)}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+              
               <input
-                className="search-input search-input-with-chip"
-                placeholder="Buscar por Nombre o ID"
-                name="search"
-                value={mostrarChip ? "" : filters.search}
-                onChange={handleChange}
+                className="search-input search-input-readonly"
+                placeholder="Haz clic en 'Buscar' para seleccionar empleados"
+                readOnly
+                style={{ cursor: 'default' }}
               />
             </div>
             <button className="btn-search" onClick={() => setShowEmployeeModal(true)}>
@@ -676,8 +727,8 @@ const ReportsHome = () => {
 
           <div className="summary-card">
             <div className="summary-row">
-              <span className="summary-label">Nombre / Búsqueda</span>
-              <span className="summary-value">{filters.search || "Todos"}</span>
+              <span className="summary-label">Empleado(s)</span>
+              <span className="summary-value">{getSearchSummary()}</span>
             </div>
             <div className="summary-row">
               <span className="summary-label">Fecha inicio</span>
