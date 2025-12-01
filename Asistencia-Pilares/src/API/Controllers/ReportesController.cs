@@ -35,6 +35,14 @@ namespace AsistenciaAPI.API.Controllers
             return File(contenido, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
         }
 
+        [HttpPost("export-data")]
+        public async Task<IActionResult> ExportarReporteDesdeDatos([FromBody] ExportarReporteDto dto)
+        {
+            var contenido = await _svc.ExportarReporteExcelDesdeDatos(dto);
+            var fileName = $"reporte_{DateTime.UtcNow:yyyyMMddHHmmss}.xlsx";
+            return File(contenido, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+        }
+
         // ✅ NUEVOS ENDPOINTS
 
         [HttpPost("guardar")]
