@@ -342,18 +342,32 @@ namespace AsistenciaAPI.Infrastructure.Services
                 .OrderByDescending(r => r.FechaGeneracion)
                 .ToListAsync();
 
-            return reportes.Select(r => new ReporteGuardadoDto
-            {
-                Id = r.Id,
-                Nombre = r.Nombre,
-                Fecha = r.FechaGeneracion.ToLocalTime().ToString("dd/MM/yyyy"),
-                FechaInicio = r.FechaInicio,
-                FechaFin = r.FechaFin,
-                EmpleadoId = r.EmpleadoId,
-                EmpleadoIds = !string.IsNullOrEmpty(r.EmpleadoIdsJson) 
-                    ? JsonSerializer.Deserialize<List<Guid>>(r.EmpleadoIdsJson) 
-                    : null,
-                UsuarioGenerador = r.UsuarioGenerador
+            return reportes.Select(r => {
+                List<Guid> empleadoIds = null;
+                try
+                {
+                    if (!string.IsNullOrEmpty(r.EmpleadoIdsJson))
+                    {
+                        empleadoIds = JsonSerializer.Deserialize<List<Guid>>(r.EmpleadoIdsJson);
+                    }
+                }
+                catch
+                {
+                    // Si falla la deserialización, simplemente dejamos empleadoIds como null
+                    empleadoIds = null;
+                }
+
+                return new ReporteGuardadoDto
+                {
+                    Id = r.Id,
+                    Nombre = r.Nombre,
+                    Fecha = r.FechaGeneracion.ToLocalTime().ToString("dd/MM/yyyy"),
+                    FechaInicio = r.FechaInicio,
+                    FechaFin = r.FechaFin,
+                    EmpleadoId = r.EmpleadoId,
+                    EmpleadoIds = empleadoIds,
+                    UsuarioGenerador = r.UsuarioGenerador
+                };
             }).ToList();
         }
 
