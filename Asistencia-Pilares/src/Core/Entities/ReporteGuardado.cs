@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Core.Entities
 {
@@ -10,6 +11,10 @@ namespace Core.Entities
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
         public Guid? EmpleadoId { get; set; }
+        
+        // Nuevo campo para múltiples empleados (se guarda como JSON en la base de datos)
+        public string? EmpleadoIdsJson { get; set; }
+        
         public string UsuarioGenerador { get; set; } = string.Empty; // Nombre del admin que lo generó
         
         // Relación opcional con Empleado
