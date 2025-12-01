@@ -9,6 +9,7 @@ namespace AsistenciaAPI.Application.Common.Interfaces
     {
         Task<List<ReporteFilaDto>> ObtenerReporteAsync(ReporteRequestDto request);
         Task<byte[]> ExportarReporteExcelAsync(ReporteRequestDto request);
+        Task<byte[]> ExportarReporteExcelDesdeDatos(ExportarReporteDto dto);
         
         // ✅ NUEVOS MÉTODOS
         Task<ReporteGuardadoDto> GuardarReporteAsync(GuardarReporteDto dto, string usuarioGenerador);
