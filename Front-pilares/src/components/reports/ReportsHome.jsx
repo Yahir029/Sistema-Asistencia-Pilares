@@ -124,6 +124,9 @@ const ReportsHome = () => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  // Guardar los IDs de empleados por cada reporte generado
+  const [reporteEmpleadosMap, setReporteEmpleadosMap] = useState({});
+
   const [filters, setFilters] = useState({
     fechaInicio: "",
     fechaFin: "",
@@ -241,6 +244,7 @@ const ReportsHome = () => {
 
       let registros = [];
       let empleadoId = null;
+      let selectedEmployeeIds = [];
 
       // Determinar qué empleados incluir en el reporte
       if (isTodosSelected) {
@@ -256,9 +260,11 @@ const ReportsHome = () => {
           },
         });
         registros = response.data || [];
+        selectedEmployeeIds = null; // null significa todos
       } else if (selectedEmployees.length === 1) {
         // Un solo empleado
         empleadoId = selectedEmployees[0].id;
+        selectedEmployeeIds = [empleadoId];
         const response = await axios.post(`${API_URL}/reportes`, {
           empleadoId: empleadoId,
           fechaInicio: filters.fechaInicio,
@@ -272,6 +278,7 @@ const ReportsHome = () => {
         registros = response.data || [];
       } else if (selectedEmployees.length > 1) {
         // Múltiples empleados - hacer una petición por cada uno y combinar resultados
+        selectedEmployeeIds = selectedEmployees.map(emp => emp.id);
         const promises = selectedEmployees.map(emp =>
           axios.post(`${API_URL}/reportes`, {
             empleadoId: emp.id,
@@ -318,6 +325,13 @@ const ReportsHome = () => {
         },
       });
 
+      // Guardar los IDs de empleados para este reporte
+      const reporteId = saveResponse.data.id;
+      setReporteEmpleadosMap(prev => ({
+        ...prev,
+        [reporteId]: selectedEmployeeIds
+      }));
+
       setHistorial((prev) => [saveResponse.data, ...prev]);
       setRefreshKey((prev) => prev + 1);
 
@@ -353,21 +367,55 @@ const ReportsHome = () => {
   const handleVer = async (item) => {
     try {
       const token = localStorage.getItem("authToken");
+      let datos = [];
 
-      const request = {
-        empleadoId: item.empleadoId || null,
-        fechaInicio: item.fechaInicio,
-        fechaFin: item.fechaFin,
-      };
+      // Verificar si tenemos los IDs de empleados guardados para este reporte
+      const empleadoIds = reporteEmpleadosMap[item.id];
 
-      const response = await axios.post(`${API_URL}/reportes`, request, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      if (empleadoIds === null || empleadoIds === undefined) {
+        // Todos los empleados o reporte viejo sin información guardada
+        const response = await axios.post(`${API_URL}/reportes`, {
+          empleadoId: item.empleadoId || null,
+          fechaInicio: item.fechaInicio,
+          fechaFin: item.fechaFin,
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        datos = response.data;
+      } else if (empleadoIds.length === 1) {
+        // Un solo empleado
+        const response = await axios.post(`${API_URL}/reportes`, {
+          empleadoId: empleadoIds[0],
+          fechaInicio: item.fechaInicio,
+          fechaFin: item.fechaFin,
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        datos = response.data;
+      } else {
+        // Múltiples empleados - hacer una petición por cada uno
+        const promises = empleadoIds.map(empId =>
+          axios.post(`${API_URL}/reportes`, {
+            empleadoId: empId,
+            fechaInicio: item.fechaInicio,
+            fechaFin: item.fechaFin,
+          }, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          })
+        );
 
-      const datos = response.data;
+        const responses = await Promise.all(promises);
+        datos = responses.flatMap(response => response.data || []);
+      }
 
       if (datos && datos.length > 0) {
         setPreviewData({
@@ -391,7 +439,7 @@ const ReportsHome = () => {
     }
   };
 
-  // DESCARGAR REPORTE
+  // DESCARGAR REPORTE - mantener igual porque el backend ya maneja el export correctamente con empleadoId
   const handleDescargar = async (item) => {
     try {
       const request = {
@@ -461,6 +509,13 @@ const ReportsHome = () => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
+      });
+
+      // Limpiar el mapa de IDs de empleados
+      setReporteEmpleadosMap(prev => {
+        const newMap = { ...prev };
+        delete newMap[item.id];
+        return newMap;
       });
 
       setHistorial((prev) => prev.filter((h) => h.id !== item.id));
