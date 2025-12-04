@@ -795,8 +795,22 @@ const EmployeeList = () => {
                 />
               </div>
 
+              <div className="form-group admin-switch-container">
+                <label className="admin-switch-label">
+                  <span>¿Es Administrador?</span>
+                  <label className="switch">
+                    <input
+                      type="checkbox"
+                      checked={isAdminInModal}
+                      onChange={handleAdminSwitchChange}
+                    />
+                    <span className="slider"></span>
+                  </label>
+                </label>
+              </div>
+
               <div className="form-group">
-                <label htmlFor="id">ID de empleado *</label>
+                <label htmlFor="id">{modalData.isNew ? 'Usuario o ID *' : 'ID de empleado *'}</label>
                 <input
                   type="text"
                   id="id"
@@ -839,20 +853,6 @@ const EmployeeList = () => {
                   />
                   {phoneError && <span className="error-message">{phoneError}</span>}
                 </div>
-              </div>
-
-              <div className="form-group admin-switch-container">
-                <label className="admin-switch-label">
-                  <span>¿Es Administrador?</span>
-                  <label className="switch">
-                    <input
-                      type="checkbox"
-                      checked={isAdminInModal}
-                      onChange={handleAdminSwitchChange}
-                    />
-                    <span className="slider"></span>
-                  </label>
-                </label>
               </div>
 
               <div className="form-row">
