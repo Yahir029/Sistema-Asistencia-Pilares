@@ -36,7 +36,12 @@ namespace AsistenciaAPI.API.Controllers
             if (!empleado.EsAdmin)
                 return Forbid(); // only admins can login
 
-            if (string.IsNullOrWhiteSpace(empleado.PasswordHash) || !_hasher.Verify(empleado.PasswordHash, dto.Password))
+            // Verificar que el empleado tiene contraseña y que coincida
+            if (string.IsNullOrWhiteSpace(empleado.PasswordHash))
+                return Unauthorized();
+
+            // Verificar la contraseña usando el hasher
+            if (!_hasher.Verify(empleado.PasswordHash, dto.Password))
                 return Unauthorized();
 
             var jwt = _config.GetSection("Jwt");
