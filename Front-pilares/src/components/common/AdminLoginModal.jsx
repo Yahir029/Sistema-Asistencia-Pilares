@@ -34,7 +34,7 @@ const AdminLoginModal = ({ isOpen, onClose, onLogin }) => {
         <h2 className="modal-title">Ingresa contraseña como Administrador</h2>
         <form className="modal-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Nombre *</label>
+            <label>Usuario o ID *</label>
             <input
               type="text"
               value={username}
