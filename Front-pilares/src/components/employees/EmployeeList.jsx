@@ -810,7 +810,7 @@ const EmployeeList = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="id">{modalData.isNew ? 'Usuario o ID *' : 'ID de empleado *'}</label>
+                <label htmlFor="id">{isAdminInModal ? 'Usuario o ID *' : 'ID de empleado *'}</label>
                 <input
                   type="text"
                   id="id"
