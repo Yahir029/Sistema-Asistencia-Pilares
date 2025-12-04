@@ -29,11 +29,12 @@ const EmployeeList = () => {
   const [roleValue, setRoleValue] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  // Estados para validación de email y teléfono
+  // Estados para validación de email, teléfono e ID
   const [emailValue, setEmailValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
+  const [idError, setIdError] = useState('');
 
   const token = localStorage.getItem('authToken');
 
@@ -304,6 +305,7 @@ const EmployeeList = () => {
     setPhoneValue('');
     setEmailError('');
     setPhoneError('');
+    setIdError('');
     setIsModalOpen(true);
   };
 
@@ -341,6 +343,7 @@ const EmployeeList = () => {
     setPhoneValue(employee.phone || '');
     setEmailError('');
     setPhoneError('');
+    setIdError('');
     
     setShowPassword(false);
     setIsModalOpen(true);
@@ -351,6 +354,7 @@ const EmployeeList = () => {
     setShowPassword(false);
     setEmailError('');
     setPhoneError('');
+    setIdError('');
   };
 
   const togglePasswordVisibility = () => {
@@ -463,6 +467,7 @@ const EmployeeList = () => {
         setShowPassword(false);
         setEmailError('');
         setPhoneError('');
+        setIdError('');
         setTimeout(() => window.location.reload(), 1500);
       } else {
         let errorBody = null;
@@ -476,6 +481,17 @@ const EmployeeList = () => {
         if (response.status === 401) {
           alert('No autorizado. Tu sesión puede haber expirado. Vuelve a iniciar sesión.');
           handleLogout();
+        } else if (response.status === 400 && errorBody && errorBody.mensaje) {
+          // Detectar si es error de ID duplicado
+          if (errorBody.mensaje.toLowerCase().includes('id') && 
+              (errorBody.mensaje.toLowerCase().includes('existe') || 
+               errorBody.mensaje.toLowerCase().includes('duplicado'))) {
+            setIdError(errorBody.mensaje);
+            // Hacer scroll al campo de ID
+            document.getElementById('id')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          } else {
+            alert(errorBody.mensaje);
+          }
         } else if (errorBody && errorBody.errors) {
           let errorMessage = 'Errores de validación:\n';
           Object.keys(errorBody.errors).forEach(key => {
@@ -788,7 +804,10 @@ const EmployeeList = () => {
                   defaultValue={modalData.employee?.id}
                   required
                   disabled={!modalData.isNew}
+                  className={idError ? 'input-error' : ''}
+                  onChange={() => setIdError('')}
                 />
+                {idError && <span className="error-message">{idError}</span>}
               </div>
 
               <div className="form-row">
@@ -944,7 +963,7 @@ const EmployeeList = () => {
                 <button
                   type="submit"
                   className="submit-button"
-                  disabled={emailError !== '' || phoneError !== ''}
+                  disabled={emailError !== '' || phoneError !== '' || idError !== ''}
                 >
                   {modalData.isNew ? 'AGREGAR' : 'GUARDAR'}
                 </button>
