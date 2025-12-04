@@ -23,6 +23,15 @@ namespace AsistenciaAPI.Application.Services
         }
         public async Task<Guid> CrearEmpleadoAsync(CrearEmpleadoDto dto)
         {
+            // Validar si el ID de empleado externo ya existe
+            var existeIdExterno = await _context.Empleados
+                .AnyAsync(e => e.IdEmpleadoExterno == dto.IdEmpleadoExterno);
+
+            if (existeIdExterno)
+            {
+                throw new InvalidOperationException($"El ID de empleado '{dto.IdEmpleadoExterno}' ya existe. Por favor, usa un ID diferente.");
+            }
+
             var empleado = new Empleado
             {
                 Id = Guid.NewGuid(),
@@ -174,6 +183,15 @@ namespace AsistenciaAPI.Application.Services
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (empleado == null) throw new InvalidOperationException("Empleado no encontrado");
+
+            // Validar si el ID de empleado externo ya existe en otro empleado
+            var existeIdExternoEnOtro = await _context.Empleados
+                .AnyAsync(e => e.IdEmpleadoExterno == dto.IdEmpleadoExterno && e.Id != id);
+
+            if (existeIdExternoEnOtro)
+            {
+                throw new InvalidOperationException($"El ID de empleado '{dto.IdEmpleadoExterno}' ya existe en otro empleado. Por favor, usa un ID diferente.");
+            }
 
             empleado.Nombre = dto.Nombre;
             empleado.IdEmpleadoExterno = dto.IdEmpleadoExterno;
