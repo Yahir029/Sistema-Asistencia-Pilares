@@ -33,22 +33,43 @@ namespace AsistenciaAPI.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CrearEmpleadoDto dto)
         {
-            var id = await _svc.CrearEmpleadoAsync(dto);
-            return Created($"/empleados/{id}", new { id });
+            try
+            {
+                var id = await _svc.CrearEmpleadoAsync(dto);
+                return Created($"/empleados/{id}", new { id });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { mensaje = ex.Message });
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] CrearEmpleadoDto dto)
         {
-            await _svc.ActualizarEmpleadoAsync(id, dto);
-            return NoContent();
+            try
+            {
+                await _svc.ActualizarEmpleadoAsync(id, dto);
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { mensaje = ex.Message });
+            }
         }
 
         [HttpPatch("{id}/estado")]
         public async Task<IActionResult> ChangeState(Guid id, [FromQuery] bool activo)
         {
-            await _svc.CambiarEstadoAsync(id, activo);
-            return NoContent();
+            try
+            {
+                await _svc.CambiarEstadoAsync(id, activo);
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { mensaje = ex.Message });
+            }
         }
     }
 }
