@@ -35,6 +35,9 @@ const EmployeeList = () => {
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
   const [idError, setIdError] = useState('');
+  
+  // Estados para rol y área
+  const [areaValue, setAreaValue] = useState('');
 
   const token = localStorage.getItem('authToken');
 
@@ -300,6 +303,7 @@ const EmployeeList = () => {
     });
     setIsAdminInModal(false);
     setRoleValue('');
+    setAreaValue('');
     setShowPassword(false);
     setEmailValue('');
     setPhoneValue('');
@@ -335,13 +339,15 @@ const EmployeeList = () => {
     // Establecer el estado del switch basado en si el empleado es admin
     setIsAdminInModal(isAdmin);
     
-    // Si es admin, establecer roleValue como 'Administrador', sino usar el rol actual
-    setRoleValue(isAdmin ? 'Administrador' : (employee.role || ''));
-    
-    // Establecer valores de email y teléfono, convirtiendo 'N/A' a cadena vacía
+    // Limpiar valores N/A de todos los campos
     const cleanEmail = (employee.email && employee.email !== 'N/A') ? employee.email : '';
     const cleanPhone = (employee.phone && employee.phone !== 'N/A') ? employee.phone : '';
+    const cleanRole = (employee.role && employee.role !== 'N/A') ? employee.role : '';
+    const cleanArea = (employee.area && employee.area !== 'N/A') ? employee.area : '';
     
+    // Si es admin, establecer roleValue como 'Administrador', sino usar el rol limpio
+    setRoleValue(isAdmin ? 'Administrador' : cleanRole);
+    setAreaValue(cleanArea);
     setEmailValue(cleanEmail);
     setPhoneValue(cleanPhone);
     setEmailError('');
@@ -414,7 +420,7 @@ const EmployeeList = () => {
     const employeeData = {
       IdEmpleadoExterno: idEmpleadoExterno,
       Nombre: formData.get('name'),
-      NombreArea: formData.get('area') || '',
+      NombreArea: areaValue || '',
       NombreRol: isAdminInModal ? 'Administrador' : (roleValue || ''),
       Horarios: horariosArray,
       EsAdmin: isAdminInModal
@@ -685,8 +691,8 @@ const EmployeeList = () => {
                   <td>{emp.name}</td>
                   <td>{emp.email || 'N/A'}</td>
                   <td>{emp.phone || 'N/A'}</td>
-                  <td>{emp.role}</td>
-                  <td>{emp.area}</td>
+                  <td>{emp.role || 'N/A'}</td>
+                  <td>{emp.area || 'N/A'}</td>
                   <td>
                     <span className={`status-badge ${emp.active ? 'active' : 'inactive'}`}>
                       {emp.active ? 'Activo' : 'Inactivo'}
@@ -865,7 +871,7 @@ const EmployeeList = () => {
                     type="text"
                     id="role"
                     name="role"
-                    placeholder={isAdminInModal ? 'Administrador (automático)' : 'Ej: Docente, Coordinador, etc.'}
+                    placeholder={isAdminInModal ? 'Administrador (automático)' : 'N/A - Sin datos'}
                     value={isAdminInModal ? 'Administrador' : roleValue}
                     onChange={(e) => setRoleValue(e.target.value)}
                     disabled={isAdminInModal}
@@ -878,8 +884,9 @@ const EmployeeList = () => {
                     type="text"
                     id="area"
                     name="area"
-                    placeholder="Ej: Dirección, Cultura, etc."
-                    defaultValue={modalData.employee?.area}
+                    placeholder="N/A - Sin datos"
+                    value={areaValue}
+                    onChange={(e) => setAreaValue(e.target.value)}
                   />
                 </div>
               </div>
